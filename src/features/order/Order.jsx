@@ -8,11 +8,11 @@ import {
 
 const order = {
   id: "ABCDEF",
-  customer: "Jonas",
+  customer: "Alireza",
   phone: "123456789",
-  address: "Arroios, Lisbon , Portugal",
+  address: "Mazandaran, QaemShahr , Iran",
   priority: true,
-  estimatedDelivery: "2027-04-25T10:00:00",
+  estimatedDelivery: "2025-07-13T10:00:00",
   cart: [
     {
       pizzaId: 7,

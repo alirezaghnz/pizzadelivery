@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 
@@ -94,18 +92,19 @@ export async function action({ request }) {
   const data = Object.fromEntries(formData);
   //console.log(data);
 
+  //create order object for create new order
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
     priority: data.priority === "on",
   };
 
+  //handling errors
   const errors = {};
 
   if (!isValidPhone(order.phone)) {
     errors.phone = "شماره نامعتبر است";
   }
-
   if (Object.keys(errors).length > 0) return errors;
 
   //if everything is ok, create new order

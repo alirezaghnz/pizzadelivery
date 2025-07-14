@@ -3,9 +3,9 @@ import SearchOrder from "../features/order/SearchOrder";
 
 export default function Header() {
   return (
-    <div>
+    <header className="bg-cyan-600">
       <Link to="/">Delivery Fast Food</Link>
       <SearchOrder />
-    </div>
+    </header>
   );
 }

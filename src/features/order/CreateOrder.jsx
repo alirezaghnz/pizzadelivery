@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -12,34 +14,38 @@ const fakeCart = [
     pizzaId: 12,
     name: "Mediterranean",
     quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
+    unitPrice: 160.0,
+    totalPrice: 320,
   },
   {
     pizzaId: 6,
     name: "Vegetale",
     quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
+    unitPrice: 130,
+    totalPrice: 130,
   },
   {
     pizzaId: 11,
     name: "Spinach and Mushroom",
     quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
+    unitPrice: 150,
+    totalPrice: 150,
   },
 ];
 
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const formError = useActionData();
 
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -50,6 +56,7 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {formError?.phone && <p>{formError.phone}</p>}
         </div>
 
         <div>
@@ -71,11 +78,40 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <button disabled={isSubmitting}>
+            {isSubmitting ? "منتظر بمانید" : "سفارش"}
+          </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function action({ request }) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  //console.log(data);
+
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart),
+    priority: data.priority === "on",
+  };
+
+  const errors = {};
+
+  if (!isValidPhone(order.phone)) {
+    errors.phone = "شماره نامعتبر است";
+  }
+
+  if (Object.keys(errors).length > 0) return errors;
+
+  //if everything is ok, create new order
+  const newOrder = await createOrder(order);
+
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;

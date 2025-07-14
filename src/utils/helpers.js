@@ -1,12 +1,12 @@
 export function formatCurrency(value) {
-  return new Intl.NumberFormat("en", {
+  return new Intl.NumberFormat("fa", {
     style: "currency",
-    currency: "EUR",
+    currency: "IRR",
   }).format(value);
 }
 
 export function formatDate(dateStr) {
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat("fa", {
     day: "numeric",
     month: "short",
     hour: "2-digit",

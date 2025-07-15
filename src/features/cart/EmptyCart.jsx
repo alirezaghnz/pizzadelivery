@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
+import ButtonLink from "../user/ButtonLink";
 
 function EmptyCart() {
   return (
     <div>
-      <Link to="/menu">&larr; Back to menu</Link>
+      <ButtonLink to="/menu">&larr; بازگشت به منو</ButtonLink>
 
-      <p>Your cart is still empty. Start adding some pizzas :)</p>
+      <p>سبد خرید شما خالی است. لطفا یک غذا را انتخاب نمایید :)</p>
     </div>
   );
 }

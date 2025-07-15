@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
+import ButtonLink from "../user/ButtonLink";
+import Button from "../user/Button";
 
 const fakeCart = [
   {
@@ -30,12 +32,12 @@ function Cart() {
 
   return (
     <div>
-      <Link to="/menu">&larr; Back to menu</Link>
+      <ButtonLink to="/menu">&larr; بازگشت به منو</ButtonLink>
 
       <h2>Your cart, %NAME%</h2>
 
       <div>
-        <Link to="/order/new">Order pizzas</Link>
+        <Button to="/order/new">سفارش پیتزا</Button>
         <button>Clear cart</button>
       </div>
     </div>

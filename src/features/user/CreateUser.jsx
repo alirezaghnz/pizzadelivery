@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
+import Button from "./Button";
 
 function CreateUser() {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -9,18 +10,20 @@ function CreateUser() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <p>👋 Welcome! Please start by telling us your name:</p>
+      <p>👋 خوش آمدید، برای ورود لطفا نام خود را وارد نمایید</p>
 
       <input
+        dir="rtl"
         type="text"
-        placeholder="Your full name"
+        placeholder="نام کامل خودتا را وارد نمایید"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        className="input mb-5 mt-5"
       />
 
-      {username !== '' && (
+      {username !== "" && (
         <div>
-          <button>Start ordering</button>
+          <Button>سفارش دهید</Button>
         </div>
       )}
     </form>

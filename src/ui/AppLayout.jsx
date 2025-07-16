@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-binary-expression */
 import { Outlet, useNavigation } from "react-router-dom";
 import Header from "./Header";
 import CartOvervirew from "../features/cart/CartOverview";
@@ -15,7 +16,6 @@ export default function AppLayout() {
           <Outlet />
         </main>
       </div>
-
       <CartOvervirew />
     </div>
   );

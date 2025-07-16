@@ -41,14 +41,16 @@ function CreateOrder() {
   const formError = useActionData();
 
   return (
-    <div dir="rtl">
-      <h2>برای ورود به صفحه سفارش، اطلاعات تکمیل کنید</h2>
+    <div dir="rtl" className="px-4 py-8 ">
+      <h2 className="mb-8 text-xl font-semibold">
+        برای ورود به صفحه سفارش، اطلاعات تکمیل کنید
+      </h2>
 
       <Form method="POST">
-        <div>
-          <label>نام</label>
+        <div className="mb-5 flex flex-col gap-2 sm:flex sm:flex-row">
+          <label className="sm:basis-37 "> نام و نام خانوادگی </label>
           <input
-            className="input"
+            className="input w-full"
             placeholder="نام خود را وارد نمایید"
             type="text"
             name="customer"
@@ -56,26 +58,30 @@ function CreateOrder() {
           />
         </div>
 
-        <div>
-          <label>شماره همراه</label>
-          <div>
+        <div className="mb-5 flex flex-col gap-2 sm:flex sm:flex-row">
+          <label className="sm:basis-37">شماره همراه</label>
+          <div className="grow">
             <input
-              className="input"
-              placeholder="شماره همراه خود را وارد نمایید."
+              className="input w-full"
+              placeholder="شماره همراه خود را وارد نمایید"
               type="tel"
               name="phone"
               required
             />
+            {formError?.phone && (
+              <p className="text-xs mt-2 text-red-700 bg-red-100 p-2 rounded-md">
+                {formError.phone}
+              </p>
+            )}
           </div>
-          {formError?.phone && <p>{formError.phone}</p>}
         </div>
 
-        <div>
-          <label>آدرس</label>
-          <div>
+        <div className="mb-5 flex flex-col gap-2 sm:flex sm:flex-row">
+          <label className="sm:basis-37">آدرس</label>
+          <div className="grow">
             <input
               placeholder="آدرس مورد نظر وارد کنید "
-              className="input"
+              className="input w-full"
               type="text"
               name="address"
               required
@@ -83,23 +89,23 @@ function CreateOrder() {
           </div>
         </div>
 
-        <div>
+        <div className="mb-10">
           <input
-            className=""
+            className="h-4 w-4 accent-cyan-700 focus:outline-none focus:ring focus:ring-cyan-700"
             type="checkbox"
             name="priority"
             id="priority"
             // value={withPriority}
             // onChange={(e) => setWithPriority(e.target.checked)}
           />
-          <label htmlFor="priority">
+          <label htmlFor="priority" className="text-sm px-2">
             نیاز دارید سفارش شما در کمترین زمان به دستتان برسد؟
           </label>
         </div>
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button disabled={false}>
+          <Button type="primary" disabled={false}>
             {isSubmitting ? "منتظر بمانید" : "سفارش"}
           </Button>
         </div>

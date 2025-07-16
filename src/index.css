@@ -5,7 +5,7 @@
 
 @layer components {
   .input {
-    @apply border border-stone-200 text-sm transition-all duration-300 placeholder:text-teal-200 rounded-full w-full px-3 py-2 focus:outline-none focus:ring focus:ring-cyan-300;
+    @apply border border-stone-200 text-sm transition-all duration-300 placeholder:text-teal-200 rounded-full px-3 py-2 focus:outline-none focus:ring focus:ring-cyan-300;
   }
 }
 

@@ -18,12 +18,12 @@ function CreateUser() {
         placeholder="نام کامل خودتا را وارد نمایید"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="input mb-5 mt-5"
+        className="input mb-5 mt-5 w-full"
       />
 
       {username !== "" && (
         <div>
-          <Button>سفارش دهید</Button>
+          <Button type="primary">سفارش دهید</Button>
         </div>
       )}
     </form>

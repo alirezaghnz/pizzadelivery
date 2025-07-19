@@ -1,6 +1,7 @@
 import ButtonLink from "../../ui/ButtonLink";
 import Button from "../../ui/Button";
 import CartItem from "./CartItem";
+import { useSelector } from "react-redux";
 
 const fakeCart = [
   {
@@ -28,12 +29,13 @@ const fakeCart = [
 
 function Cart() {
   const cart = fakeCart;
+  const username = useSelector((state) => state.user.username);
 
   return (
-    <div className="px-4 py-3">
+    <div className="px-4 py-3" dir="rtl">
       <ButtonLink to="/menu">&larr; بازگشت به منو</ButtonLink>
       <h2 dir="rtl" className="mt-7 text-xl font-semibold">
-        سبد خرید
+        سبد خرید کاربر {username}
       </h2>
 
       <ul className="mt-3 divide-y divide-stone-300">

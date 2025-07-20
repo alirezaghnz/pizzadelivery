@@ -1,11 +1,13 @@
-import ButtonLink from "../user/ButtonLink";
+import ButtonLink from "../../ui/ButtonLink";
 
 function EmptyCart() {
   return (
-    <div>
-      <ButtonLink to="/menu">&larr; بازگشت به منو</ButtonLink>
+    <div dir="rtl" className="py-7 ">
+      <ButtonLink to="/menu">بازگشت به منو</ButtonLink>
 
-      <p>سبد خرید شما خالی است. لطفا یک غذا را انتخاب نمایید :)</p>
+      <p className="mt-5 font-semibold">
+        سبد خرید شما خالی است. لطفا یک غذا را انتخاب نمایید :)
+      </p>
     </div>
   );
 }

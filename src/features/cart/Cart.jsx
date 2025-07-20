@@ -1,46 +1,27 @@
 import ButtonLink from "../../ui/ButtonLink";
 import Button from "../../ui/Button";
 import CartItem from "./CartItem";
-import { useSelector } from "react-redux";
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+import EmptyCart from "./EmptyCart";
+import { useDispatch, useSelector } from "react-redux";
+import { clearItem, getCart } from "./cartSlice";
 
 function Cart() {
-  const cart = fakeCart;
+  const cart = useSelector(getCart);
   const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
+
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <div className="px-4 py-3" dir="rtl">
-      <ButtonLink to="/menu">&larr; بازگشت به منو</ButtonLink>
+      <ButtonLink to="/menu"> بازگشت به منو</ButtonLink>
       <h2 dir="rtl" className="mt-7 text-xl font-semibold">
         سبد خرید کاربر {username}
       </h2>
 
       <ul className="mt-3 divide-y divide-stone-300">
         {cart.map((item) => (
-          <CartItem item={item} key={item.id} />
+          <CartItem item={item} key={item.pizzaId} />
         ))}
       </ul>
 
@@ -48,7 +29,10 @@ function Cart() {
         <Button to="/order/new" type="primary">
           سفارش پیتزا
         </Button>
-        <Button type="delete_lg">حذف</Button>
+
+        <Button onClick={() => dispatch(clearItem())} type="delete_lg">
+          حذف
+        </Button>
       </div>
     </div>
   );

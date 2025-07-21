@@ -1,10 +1,12 @@
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
+import { useState } from "react";
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
-import { useSelector } from "react-redux";
-import { clearItem, getCart } from "../cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearItem, getCart, getTotalCartPrice } from "../cart/cartSlice";
 import EmptyCart from "../cart/EmptyCart";
 import store from "../../store";
+import { fetchAddress } from "../user/userSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -13,12 +15,23 @@ const isValidPhone = (str) =>
   );
 
 function CreateOrder() {
-  // const [withPriority, setWithPriority] = useState(false);
-  const username = useSelector((state) => state.user.username);
+  const [withPriority, setWithPriority] = useState(false);
+  const dispatch = useDispatch();
+  const {
+    username,
+    status: addressStatus,
+    position,
+    address,
+    error: errorAddress,
+  } = useSelector((state) => state.user);
   const cart = useSelector(getCart);
   //console.log(cart);
+  const totalCartPrice = useSelector(getTotalCartPrice);
+  const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
+  const totalPrice = totalCartPrice + priorityPrice;
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+  const isAddressLoading = addressStatus === "loading";
 
   const formError = useActionData();
 
@@ -60,7 +73,7 @@ function CreateOrder() {
           </div>
         </div>
 
-        <div className="mb-5 flex flex-col gap-2 sm:flex sm:flex-row">
+        <div className="relative mb-5 flex flex-col gap-2 sm:flex sm:flex-row">
           <label className="sm:basis-37">آدرس</label>
           <div className="grow">
             <input
@@ -68,9 +81,31 @@ function CreateOrder() {
               className="input w-full"
               type="text"
               name="address"
+              disabled={isAddressLoading}
+              defaultValue={address}
               required
             />
+            {errorAddress && (
+              <p className="text-xs mt-1 text-red-700 bg-red-100 p-2 rounded-md ">
+                {errorAddress}
+              </p>
+            )}
           </div>
+
+          <span className="absolute left-2 top-[1px] z-50 sm:left-[1px]">
+            {!position.latitude && !position.longitude && (
+              <Button
+                disabled={isAddressLoading}
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                }}
+                type="small"
+              >
+                موقعیت مکانی
+              </Button>
+            )}
+          </span>
         </div>
 
         <div className="mb-10">
@@ -79,8 +114,8 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            value={withPriority}
+            onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label htmlFor="priority" className="text-sm px-2">
             نیاز دارید سفارش شما در کمترین زمان به دستتان برسد؟
@@ -90,7 +125,9 @@ function CreateOrder() {
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           <Button type="primary" disabled={false}>
-            {isSubmitting ? "منتظر بمانید" : "سفارش"}
+            {isSubmitting
+              ? "منتظر بمانید"
+              : `سفارش شما به قیمت ${totalPrice}تومان`}
           </Button>
         </div>
       </Form>
@@ -108,7 +145,7 @@ export async function action({ request }) {
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
-    priority: data.priority === "on",
+    priority: data.priority === "true",
   };
 
   //handling errors

@@ -6,7 +6,7 @@ export default function Button({ children, disabled, to, type, onClick }) {
 
   const styles = {
     primary: base + " px-4 py-3 md:px-4 md:py-2",
-    small: base + " px-4 py-2 md:px-5 md:py-2.5 text-sm",
+    small: base + " px-2 py-[5px] md:px-4 md:py-[7px] text-sm",
     quantity: base + " px-1.5 py-1.5 md:px-2.5 md:py-2.5 rounded-md text-md",
     delete_sm:
       "inline-block text-xs bg-red-400 text-stone-800 rounded-full tracking-wide font-semibold transition-color duration-300 hover:bg-cyan-300 focus:bg-cyan-300 focus:outline-none focus:ring focus:ring-cyan-300 focus:ring-offset-2 disabled:cursor-not-allowed px-4 py-3 md:px-4 md:py-2",

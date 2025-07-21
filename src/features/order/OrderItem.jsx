@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { formatCurrency } from "../../utils/helpers";
 
 function OrderItem({ item, isLoadingIngredients, ingredients }) {
@@ -12,6 +11,9 @@ function OrderItem({ item, isLoadingIngredients, ingredients }) {
         </p>
         <p className="font-bold">{formatCurrency(totalPrice)}</p>
       </div>
+      <p className="text-sm capitalize text-stone-400">
+        {isLoadingIngredients ? "...Loading" : ingredients.join(", ")}
+      </p>
     </li>
   );
 }
